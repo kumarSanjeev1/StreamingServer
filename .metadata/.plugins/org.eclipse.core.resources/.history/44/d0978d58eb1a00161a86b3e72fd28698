@@ -1,0 +1,5 @@
+package com.blah.server.logger;
+
+public class LogStreamingServer {
+
+}

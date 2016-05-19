@@ -1,0 +1,9 @@
+package com.blah.client.logger;
+
+import java.io.File;
+
+public interface IFileStreamingHandler {
+	
+	public void streamFile(File file);
+
+}

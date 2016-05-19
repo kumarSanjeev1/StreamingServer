@@ -1,0 +1,9 @@
+package com.blah.client.logger;
+
+public class JSonSerializer {
+	
+	public static String serializeToJson(Object payload){
+		
+	}
+
+}

@@ -1,0 +1,36 @@
+package com.blah.server.logger;
+
+import java.io.IOException;
+
+import com.blah.client.logger.ClientPayLoad;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class ServerStreamHandler {
+	private String fileName;
+	private String serviceName;
+	private String hostName;
+	private static final String SERVER_LOG_DIR="";
+	
+	public ServerStreamHandler(String jsonPayLoad){
+		ObjectMapper mapper= new ObjectMapper();
+		try {
+			ClientPayLoad payload= mapper.readValue(jsonPayLoad, ClientPayLoad.class);
+			String fileName=payload.getFileName();
+			
+			
+		} catch (JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+}

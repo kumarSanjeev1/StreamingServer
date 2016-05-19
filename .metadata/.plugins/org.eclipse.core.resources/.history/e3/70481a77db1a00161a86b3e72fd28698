@@ -1,0 +1,55 @@
+package com.blah.client.logger;
+
+import java.io.DataOutputStream;
+import java.io.File;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.function.Function;
+
+public class ClientLogStreamingService implements Runnable {
+
+	private String logDir = LogManager.getLogLocation();
+	private ExecutorService pool = Executors.newCachedThreadPool();
+	private ConcurrentHashMap<String, Boolean> files = new ConcurrentHashMap<String, Boolean>();
+	private final String host;
+	private final int port;
+
+	public ClientLogStreamingService(String host, int port) {
+		this.host = host;
+		this.port = port;
+	}
+
+	@Override
+	public void run() {
+		File logFileDir = new File(logDir);
+		String[] fileNames = logFileDir.list();
+		for (String fileName : fileNames) {
+			files.computeIfAbsent(fileName, new Function<String, Boolean>() {
+
+				@Override
+				public Boolean apply(String t) {
+					pool.submit(()->{
+						try {
+							Socket socket= new Socket(host, port);
+							ClientPayLoad payLoad= new ClientPayLoad(fileName, serviceName, InetAddress.getLocalHost().getHostName());
+							DataOutputStream dataOS=new DataOutputStream(socket.getOutputStream());
+							
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					});
+					return Boolean.TRUE;
+				}
+
+			});
+		}
+	}
+
+	private void submitFile(String fileName) {
+	}
+
+}

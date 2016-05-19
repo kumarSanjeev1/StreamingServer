@@ -1,0 +1,5 @@
+package com.blah.client.logger;
+
+public class LogManager {
+
+}

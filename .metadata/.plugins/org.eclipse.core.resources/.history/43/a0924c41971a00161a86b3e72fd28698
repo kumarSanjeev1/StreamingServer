@@ -1,0 +1,22 @@
+package com.blah.client.logger;
+
+public class LogManager {
+	
+	private static volatile LogManager instance=null;
+	private static String logDir=null;
+	
+	static{
+		logDir=System.getProperty("com.blah.log.dir");
+	}
+	private LogManager(){
+		this.lo
+	}
+	
+	public static LogManager getInstance(){
+		if(instance==null){
+			instance= new LogManager();
+		}
+		return instance;
+	}
+
+}

@@ -1,0 +1,95 @@
+package com.blah.client.logger;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+
+public class ClientLogStreamingService implements Runnable {
+
+	private String logDir = LogManager.getLogLocation();
+	
+	private ExecutorService pool = Executors.newCachedThreadPool();
+	private ScheduledExecutorService scheExecutorService= Executors.newScheduledThreadPool(10);
+	
+	private ConcurrentHashMap<String, Boolean> files = new ConcurrentHashMap<String, Boolean>();
+	
+	private final String host;
+	private final int port;
+
+	public ClientLogStreamingService(String host, int port) {
+		this.host = host;
+		this.port = port;
+	}
+
+	@Override
+	public void run() {
+		File logFileDir = new File(logDir);
+		String[] fileNames = logFileDir.list();
+		for (String fileName : fileNames) {
+			files.computeIfAbsent(fileName, new Function<String, Boolean>() {
+
+				@Override
+				public Boolean apply(String t) {
+					pool.submit(()->{
+						try {
+							Socket socket= new Socket(host, port);
+							
+							byte[] jsonBytes = computePayLoadMetaData(t);
+							
+							writePayLoadMetaDataToServer(socket, jsonBytes);
+							
+							// Server responds back with the last read offset.
+							int lastOffset = getLastWrittenOffset(socket);
+							
+							// Keep reading 1000 chars from lastOfffset+1 and write to server
+							scheExecutorService.scheduleAtFixedRate(new StreamingHandler(t, socket, lastOffset) , 1,1, TimeUnit.SECONDS);
+							
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					});
+					return Boolean.TRUE;
+				}
+
+				private int getLastWrittenOffset(Socket socket)
+						throws IOException {
+					DataInputStream dataInputStream= new DataInputStream(socket.getInputStream());
+					int lastOffset= dataInputStream.readInt();
+					return lastOffset;
+				}
+
+				private void writePayLoadMetaDataToServer(Socket socket,
+						byte[] jsonBytes) throws IOException {
+					DataOutputStream dataOS=new DataOutputStream(socket.getOutputStream());
+					//First write the length of json, followed by json meta data
+					dataOS.writeInt(jsonBytes.length);
+					dataOS.write(jsonBytes);
+				}
+
+				private byte[] computePayLoadMetaData(String fName)
+						throws UnknownHostException {
+					ClientPayLoad payLoad= new ClientPayLoad(fName, LogManager.getServiceName(fName), InetAddress.getLocalHost().getHostName());
+					
+					String jsonPayload= JSonSerializer.serializeToJson(payLoad);
+					byte[] jsonBytes= jsonPayload.getBytes();
+					return jsonBytes;
+				}
+
+			});
+		}
+	}
+	
+	
+
+	
+}

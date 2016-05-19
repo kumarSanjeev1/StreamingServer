@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete 9 resources" deleteContents="false" description="Delete 9 resources" element1="/ClientLogger/bin/com/blah/client/logger/ClientLogStreamingService.class" element2="/ClientLogger/bin/com/blah/client/logger/ClientLogStreamingService$1.class" element3="/ClientLogger/bin/com/blah/client/logger/ClientPayLoad.class" element4="/ClientLogger/bin/com/blah/client/logger/FileLogger.class" element5="/ClientLogger/bin/com/blah/client/logger/IFileStreamingHandler.class" element6="/ClientLogger/bin/com/blah/client/logger/ILogger.class" element7="/ClientLogger/bin/com/blah/client/logger/JSonSerializer.class" element8="/ClientLogger/bin/com/blah/client/logger/LogManager.class" element9="/ClientLogger/bin/com/blah/client/logger/StreamingHandler.class" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="9" stamp="1463402053394"/>
+</session>

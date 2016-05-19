@@ -1,0 +1,38 @@
+package com.blah.client.logger;
+
+public class ClientPayLoad {
+	public static final int JSON_LENGTH_BYTES=4;
+	
+	private String fileName;
+	private String serviceName;
+	private String hostName;
+	
+	public ClientPayLoad(){
+		
+	}
+	
+	public ClientPayLoad(String fileName, String serviceName, String hostName){
+		this.fileName=fileName;
+		this.serviceName=serviceName;
+		this.hostName=hostName;
+	}
+
+	public static int getJsonLengthBytes() {
+		return JSON_LENGTH_BYTES;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public String getServiceName() {
+		return serviceName;
+	}
+
+	public String getHostName() {
+		return hostName;
+	}
+	
+	
+
+}

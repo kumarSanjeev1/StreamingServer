@@ -1,0 +1,19 @@
+package com.blah.server.logger;
+
+public class LogStreamingServer implements Runnable {
+	
+	private int port;
+
+	public LogStreamingServer(int port) {
+		this.port=port;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+
+}

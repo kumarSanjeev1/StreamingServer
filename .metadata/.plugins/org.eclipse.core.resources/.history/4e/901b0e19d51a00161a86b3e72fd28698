@@ -1,0 +1,8 @@
+package com.blah.client.logger;
+
+private static final int JSON_LENGTH_BYTES=4;
+
+public class ClientPayLoad {
+	
+
+}

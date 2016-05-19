@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;ClientPayLoad.java&apos; to &apos;RemoteLoggerService&apos;&#x0D;&#x0A;- Original project: &apos;ClientLogger&apos;&#x0D;&#x0A;- Destination element: &apos;RemoteLoggerService&apos;&#x0D;&#x0A;- Original element: &apos;com.blah.client.logger.ClientPayLoad.java&apos;" description="Copy compilation unit" destination="=RemoteLoggerService" element1="/src&lt;com.blah.client.logger{ClientPayLoad.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1463351402053" units="1" version="1.0"/>
+</session>

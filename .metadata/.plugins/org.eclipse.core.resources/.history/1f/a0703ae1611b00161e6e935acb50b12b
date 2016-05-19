@@ -1,0 +1,73 @@
+package com.blah.client.logger;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+
+public class ClientLogStreamingService implements Runnable {
+
+	private String logDir = LogManager.getLogLocation();
+	private ExecutorService pool = Executors.newCachedThreadPool();
+	private ScheduledExecutorService scheExecutorService= Executors.newScheduledThreadPool(10);
+	private ConcurrentHashMap<String, Boolean> files = new ConcurrentHashMap<String, Boolean>();
+	private final String host;
+	private final int port;
+
+	public ClientLogStreamingService(String host, int port) {
+		this.host = host;
+		this.port = port;
+	}
+
+	@Override
+	public void run() {
+		File logFileDir = new File(logDir);
+		String[] fileNames = logFileDir.list();
+		for (String fileName : fileNames) {
+			files.computeIfAbsent(fileName, new Function<String, Boolean>() {
+
+				@Override
+				public Boolean apply(String t) {
+					pool.submit(()->{
+						try {
+							Socket socket= new Socket(host, port);
+							ClientPayLoad payLoad= new ClientPayLoad(fileName, LogManager.getServiceName(fileName), InetAddress.getLocalHost().getHostName());
+							
+							String jsonPayload= JSonSerializer.serializeToJson(payLoad);
+							byte[] jsonBytes= jsonPayload.getBytes();
+							DataOutputStream dataOS=new DataOutputStream(socket.getOutputStream());
+							//First write the length of json, followed by json meta data
+							dataOS.writeInt(jsonBytes.length);
+							dataOS.write(jsonBytes);
+							
+							// Server responds back with the last read offset.
+							DataInputStream dataInputStream= new DataInputStream(socket.getInputStream());
+							int lastOffset= dataInputStream.readInt();
+							
+							// Keep reading 1000 chars from lastOfffset+1 and write to server
+							scheExecutorService.schedule(new StreamingHandler(fileName, socket, lastOffset) , 1, TimeUnit.MINUTES);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					});
+					return Boolean.TRUE;
+				}
+
+			});
+		}
+	}
+	
+	public static void main(String[] a){
+		new ClientLogStreamingService("localhost", 2121).run();
+	}
+
+	
+}

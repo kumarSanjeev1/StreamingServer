@@ -1,0 +1,40 @@
+package com.blah.client.logger;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.net.Socket;
+import java.util.concurrent.Callable;
+
+public class StreamingHandler implements Callable<Boolean> {
+
+	
+	private final String fileName;
+	private final Socket serverSocket;
+	private volatile int lastOffset;
+	private volatile  FileInputStream fis;
+	public StreamingHandler(String fileName, Socket serverSocket, int lastOffset){
+		this.fileName=fileName;
+		this.serverSocket=serverSocket;
+		this.lastOffset=lastOffset;
+		try {
+			this.fis= new FileInputStream(fileName);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public java.lang.Boolean call() throws Exception {
+		byte[] bytesRead= new byte[1000];
+		int totalRead= fis.read(bytesRead, lastOffset+1, bytesRead.length);
+		if(totalRead !=-1){
+			//Write to Socket
+			serverSocket.getOutputStream().write(bytesRead);
+			lastOffset+=totalRead;
+		}
+		return Boolean.TRUE;
+		
+	}
+	
+
+}

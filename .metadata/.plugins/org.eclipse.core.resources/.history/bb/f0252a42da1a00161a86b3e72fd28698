@@ -1,0 +1,11 @@
+package com.blah.client.logger;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public class JSonSerializer {
+	
+	public static String serializeToJson(Object data){
+		ObjectMapper  objectMapper= new ObjectMapper();
+	}
+
+}

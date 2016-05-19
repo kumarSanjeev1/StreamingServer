@@ -1,0 +1,21 @@
+package com.blah.server.logger;
+
+import java.net.ServerSocket;
+
+public class LogStreamingServer implements Runnable {
+	
+	private int port;
+
+	public LogStreamingServer(int port) {
+		this.port=port;
+		ServerSocket serverSocket= new ServerSocket(port);
+	}
+
+	@Override
+	public void run() {
+		
+	}
+	
+	
+
+}

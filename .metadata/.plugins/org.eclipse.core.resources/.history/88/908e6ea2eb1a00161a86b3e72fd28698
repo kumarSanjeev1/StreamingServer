@@ -1,0 +1,28 @@
+package com.blah.server.logger;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+
+public class LogStreamingServer implements Runnable {
+	
+	private int port;
+	private ServerSocket serverSocket;
+
+	public LogStreamingServer(int port) {
+		this.port=port;
+		try {
+			serverSocket= new ServerSocket(port);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void run() {
+		
+	}
+	
+	
+
+}

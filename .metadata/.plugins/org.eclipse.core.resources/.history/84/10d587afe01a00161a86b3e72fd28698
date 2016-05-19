@@ -1,0 +1,23 @@
+package com.blah.client.logger;
+
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.concurrent.Callable;
+
+public class StreamingHandler<Boolean> implements Callable<Boolean> {
+
+	private final OutputStream os;
+	private final InputStream is;
+	private long lastOffsetWritten;
+	
+	public StreamingHandler(OutputStream os, InputStream is){
+		this.os=os;
+		this.is=is;
+	}
+	@Override
+	public Boolean call() throws Exception {
+		return null;
+	}
+	
+
+}

@@ -1,0 +1,9 @@
+package com.blah.client.logger;
+
+public interface Logger {
+	
+	public void info(String module, String data);
+	
+	public void warning(String modeule, String data);
+
+}

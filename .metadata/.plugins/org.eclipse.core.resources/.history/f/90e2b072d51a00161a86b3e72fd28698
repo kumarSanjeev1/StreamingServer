@@ -1,0 +1,14 @@
+package com.blah.client.logger;
+
+public class ClientPayLoad {
+	public static final int JSON_LENGTH_BYTES=4;
+	
+	private String fileName;
+	private String serviceName;
+	private String hostName;
+	
+	public ClientPayLoad(String fileName, String serviceName, String hostName){
+		
+	}
+
+}

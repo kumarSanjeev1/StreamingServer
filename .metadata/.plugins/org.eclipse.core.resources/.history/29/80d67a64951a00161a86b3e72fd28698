@@ -1,0 +1,27 @@
+package com.blah.client.logger;
+
+public class  FileLogger  implements Logger{
+	
+	public FileLogger(String filePath) {
+		this.logFile=filePath;
+	}
+
+	@Override
+	public void info(String module, String data) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void warning(String modeule, String data) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void error(String module, String errorMsg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

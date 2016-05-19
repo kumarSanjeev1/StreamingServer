@@ -1,0 +1,7 @@
+1463428999947	Extract method 'computePayLoadMetaData'
+1463429047347	Extract method 'writePayLoadMetaDataToServer'
+1463429125986	Extract method 'getLastWrittenOffset'
+1463429265984	Rename local variable 't'
+1463429570339	Delete element
+1463429577847	Delete element
+1463429582856	Delete element

@@ -1,0 +1,3 @@
+1463396794891	Extract local variable 'writeOffset'
+1463428224707	Extract method 'extractPayloadMetaData'
+1463428378436	Extract method 'passLastWriteOffset'
